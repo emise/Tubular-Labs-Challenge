@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Find businesses around your location!">
+    <meta name="author" content="Angela Liu">
+
+    <title>Tubular Labs Business Search</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/scrolling-nav.css" rel="stylesheet">
+    <link href="css/slider.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- Include the AngularJS library -->
+    <script src="js/lodash.min.js"></script>
+    <script src="js/angular.min.js"></script>
+    <!-- Google Maps -->
+    <script src="js/angular-google-maps.min.js"></script>
+    <!--<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=API_KEY"></script>-->
+    <!--<script src="js/ng-map.min.js"></script>-->
+    <!-- Angular module -->
+    <script src="js/app.js"></script>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+    </head>
+
+    <body id="page-top" ng-app="TubularApp">
+
+        <!-- Navigation -->
+        <section id="intro" class="intro-section" ng-controller="MainController">
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                       <div class="sliders">
+                        <div class="sliderContainer">
+                            <slider floor="1000" ceiling="30000" step="50" precision="2" ng-model="numRad"></slider>
+                        </div>
+                        <label>Search radius: </label>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-12 sliderRow">
+                    <div class="sliders">
+                        <div class="sliderContainer">
+                            <slider floor="1" ceiling="20" step="1" precision="2" ng-model="numBiz"></slider>
+                        </div>
+                        <label>Number of businesses:</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <h1>Search for businesses near you</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <form ng-submit="submit()">
+                      <input type="text" ng-model="text" name="text" placeholder="Address or location; keywords" />
+                      <br>
+                      <input type="submit" id="search" value="Search" class="btn btn-primary"/>
+                  </form>
+              </div>
+          </div>
+          <div class="row" ng-cloak>
+            <div class="col-lg-12 text-center resultsText">
+                <p>{{ searchResults }}</p>
+                <p>{{ loadingMsg }}</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Map Section -->
+<section id="maparea" class="about-section" ng-controller="MapController">
+    <div class="angular-google-map-container">
+        <ui-gmap-google-map center="map.center" options="options" zoom="map.zoom">
+        <ui-gmap-marker ng-repeat="m in map.marker" idKey='m.id' coords='m.location.coordinate' click="onMarkerClicked">
+        <ui-gmap-window show="showWindow">
+        <div ng-cloak>
+            <h4>{{ m.name }}</h4>
+            <p><img ng-src="{{m.rating_img_url}}" /></p>
+            <p>{{ m.phone | tel }}</p>
+            <p>{{m.location.display_address[0]}}<br>
+                {{m.location.display_address[1]}}<br>
+                {{m.location.display_address[2]}}<br>
+            </p>
+        </div>
+    </ui-gmap-window>
+</ui-gmap-marker>
+</ui-gmap-google-map>
+</div>
+</section>
+
+<!-- jQuery -->
+<script src="js/jquery.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="js/bootstrap.min.js"></script>
+
+<!-- Plugins -->
+<script src="js/slider.js"></script>
+
+<!-- Oauth 1.0a -->
+<script src="js/oauth-signature.min.js"></script>
+
+<!-- Angular Controllers -->
+<script src="js/controllers/MainController.js"></script>
+<script src="js/controllers/MapController.js"></script>
+
+<!-- Angular Services -->
+<script src="js/services/yelpapi.js"></script>
+<script src="js/services/sharedData.js"></script>
+
+<!-- Angular Filters -->
+<script src="js/filters/tel.js"></script>
+
+</body>
+
+</html>
